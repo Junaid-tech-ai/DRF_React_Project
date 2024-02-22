@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './ImageResizer.css'; // Import your CSS file
+import './ImageResizer.css';
 
 function ImageResizer() {
   const [image, setImage] = useState(null);
@@ -24,7 +24,7 @@ function ImageResizer() {
     formData.append('height', height);
     console.log(formData, 'formdata')
     try {
-      const response = await axios.post('http://127.0.0.1:8000/imageresizer/resizeimage/', formData, {
+      const response = await axios.post('https://image-resizer-201-27cc71e9bc62.herokuapp.com/imageresizer/resizeimage/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           
@@ -42,9 +42,6 @@ function ImageResizer() {
       };
       reader.readAsDataURL(blob);
 
-      // let base64ImageString = Buffer.from(response.data, 'binary').toString('base64')
-
-      // setResizedImage(base64ImageString);
       setError(''); // Clear any previous errors
     } catch (error) {
       console.error('Error resizing image:', error);
@@ -68,7 +65,6 @@ function ImageResizer() {
       {error && <p className="error-message">{error}</p>}
       
       {resizedImage && <img src={resizedImage} alt="Resized" className="resized-image" />}
-      {/* {resizedImage && <img src={`data:image/jpeg;base64,${resizedImage}`} alt="Resized" className="resized-image" />} */}
     </div>
   );
 }
