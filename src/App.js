@@ -17,31 +17,32 @@ function ImageResizer() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true); // Show loading indicator
-
     const formData = new FormData();
     formData.append('image', image);
-    formData.append('width', width);
-    formData.append('height', height);
+    formData.append('width_px', width);
+    formData.append('height_px', height);
+    formData.append('format', 'jpg')
     console.log(formData, 'formdata')
+    
     try {
       const response = await axios.post('https://image-resizer-201-27cc71e9bc62.herokuapp.com/imageresizer/resizeimage/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           
-        },
-        responseType: 'arraybuffer'
+        }
+        // responseType: 'arraybuffer'
       });
       console.log('Response data:', response);
-      const blob = new Blob([response.data], { type: 'image/jpeg' });
+      // const blob = new Blob([response.data], { type: 'image/jpeg' });
 
-      // Create a FileReader to read the blob as a data URL
-      const reader = new FileReader();
-      reader.onload = () => {
-        // Set the data URL in the component state
-        setResizedImage(reader.result);
-      };
-      reader.readAsDataURL(blob);
-
+      // // Create a FileReader to read the blob as a data URL
+      // const reader = new FileReader();
+      // reader.onload = () => {                               (THis comment code is used to load bytearray image from API)
+      //   // Set the data URL in the component state
+      //   setResizedImage(reader.result);
+      // };
+      // reader.readAsDataURL(blob);
+      setResizedImage(response.data.data.link)
       setError(''); // Clear any previous errors
     } catch (error) {
       console.error('Error resizing image:', error);
